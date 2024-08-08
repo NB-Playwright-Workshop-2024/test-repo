@@ -1,19 +1,74 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+ name: skr_pool
+ demands:
+  - agent.name -equals skr_pool
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Use Node version 16'
+  
+- download: none
+- checkout: self
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+   npm install
+  displayName: "NPM Install"
+
+- script: |
+   npx playwright install --with-deps
+  displayName: "Playwright Install"
+
+- script: |
+    set CI=true
+    set PLAYWRIGHT_JUNIT_OUTPUT_NAME=results.xml
+    npx playwright test
+  displayName: "Run Playwright Tests"
+  continueOnError: true
+
+- script: npx playwright test --reporter=line,allure-playwright
+  displayName: 'Use Allure reports'
+  continueOnError: true
+
+- task: PublishAllureReport@1
+  displayName: Publish Report
+  inputs:
+    allureVersion: 2.27.0
+    testResultsDir: allure-results
+  continueOnError: true
+    
+- task: ArchiveFiles@2
+  displayName: 'Add playwright-report to Archive'
+  inputs:
+    rootFolderOrFile: '$(Pipeline.Workspace)/s/playwright-report/'
+    archiveFile: '$(Agent.TempDirectory)/$(Build.BuildId)_$(System.JobAttempt)$(System.StageAttempt).zip'
+
+- task: ArchiveFiles@2
+  displayName: 'Add test-results to Archive'
+  inputs:
+    rootFolderOrFile: '$(Pipeline.Workspace)/s/test-results/'
+    archiveFile: '$(Agent.TempDirectory)/$(Build.BuildId)_$(System.JobAttempt)$(System.StageAttempt).zip'
+    replaceExistingArchive: false
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Pipeline Artifacts'
+  inputs:
+    targetPath: '$(Agent.TempDirectory)/$(Build.BuildId)_$(System.JobAttempt)$(System.StageAttempt).zip'
+    artifact: pipeline-artifacts
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '$(Pipeline.Workspace)/s/results.xml'
+    testRunTitle: 'Playwright ADO Demo - $(System.StageName)'
+  displayName: 'Publish Test Results'
