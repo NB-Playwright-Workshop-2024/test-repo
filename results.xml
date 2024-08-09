@@ -1,6 +1,15 @@
-<testsuites id="" name="" tests="1" failures="0" skipped="0" errors="0" time="4.679044">
-<testsuite name="homepage.spec.js" timestamp="2024-08-09T06:59:29.068Z" hostname="Development" tests="1" failures="0" skipped="0" time="2.204" errors="0">
-<testcase name="Check if the tagline" classname="homepage.spec.js" time="2.204">
+<testsuites id="" name="" tests="2" failures="0" skipped="0" errors="0" time="8.226837999999999">
+<testsuite name="dropdown.spec.js" timestamp="2024-08-09T07:20:34.275Z" hostname="Development" tests="1" failures="0" skipped="0" time="5.334" errors="0">
+<testcase name="Search by county" classname="dropdown.spec.js" time="5.334">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\dropdown-Search-by-county-Development\trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="homepage.spec.js" timestamp="2024-08-09T07:20:34.275Z" hostname="Development" tests="1" failures="0" skipped="0" time="5.061" errors="0">
+<testcase name="Check if the tagline" classname="homepage.spec.js" time="5.061">
 <system-out>
 <![CDATA[
 [[ATTACHMENT|test-results\homepage-Check-if-the-tagline-Development\trace.zip]]
