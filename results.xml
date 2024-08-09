@@ -1,0 +1,11 @@
+<testsuites id="" name="" tests="1" failures="0" skipped="0" errors="0" time="4.679044">
+<testsuite name="homepage.spec.js" timestamp="2024-08-09T06:59:29.068Z" hostname="Development" tests="1" failures="0" skipped="0" time="2.204" errors="0">
+<testcase name="Check if the tagline" classname="homepage.spec.js" time="2.204">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\homepage-Check-if-the-tagline-Development\trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>

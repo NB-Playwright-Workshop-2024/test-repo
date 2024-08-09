@@ -28,7 +28,7 @@ export default defineConfig({
       {
         name: 'Development',
         use: {
-          baseURL: 'http://144.24.129.185:3002/',
+          baseURL: 'http://144.24.129.185:8080/',
         },
       },
   ],
